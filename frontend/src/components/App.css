@@ -1,0 +1,25 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap');
+
+html {
+    font-family: 'Lato', sans-serif;
+}
+body  {
+    height: 100%;
+}
+.column-flex {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.kanban-tag {
+    border: none;
+    height: 20px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 20px;
+    margin: 0 1rem 1rem 0;
+}

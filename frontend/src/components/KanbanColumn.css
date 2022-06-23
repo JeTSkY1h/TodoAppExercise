@@ -1,0 +1,19 @@
+.kanban-column {
+    padding: 1rem;
+    border-radius: 3px;
+    background-color: #e2e0e0;
+}
+
+
+.kanban-column-title {
+    padding: 0.5rem;
+    border-radius: 3px;
+    color: #3d3d3d;
+    margin: 0;
+}
+
+.kanban-column-flex {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
