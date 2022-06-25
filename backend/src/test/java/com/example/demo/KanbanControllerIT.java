@@ -7,12 +7,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.example.demo.Tag.Tag;
+import com.example.demo.Task.Task;
+import com.example.demo.Task.mockTag;
+
 import java.util.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class KanbanControllerIT {
 
-	Task task1 = new Task("Java Lernen", "Immer fleißig tests schreiben!", Status.OPEN, List.of(new Tag("Programmieren", "#5522ff"), new Tag("Lernen", "#5f68ea")));
+	Task task1 = new Task("Java Lernen", "Immer fleißig tests schreiben!", Status.OPEN, List.of(new mockTag("Programmieren", "#5522ff"), new mockTag("Lernen", "#5f68ea")));
 	Task task2 = new Task("Backend Programmieren", "bla bla bla", Status.IN_PROGRESS);
 
 	@Autowired

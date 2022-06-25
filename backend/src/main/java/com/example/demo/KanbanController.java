@@ -6,6 +6,10 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.Tag.Tag;
+import com.example.demo.Task.Task;
+import com.example.demo.Task.TaskService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -18,8 +22,10 @@ public class KanbanController {
     @PostMapping("/kanban")
     ResponseEntity<Task> addTask(@RequestBody Task task){
         try {
-          return  ResponseEntity.of(Optional.of(taskService.saveTask(task)));
+            System.out.println("TASK:" + task);
+            return  ResponseEntity.of(Optional.of(taskService.saveTask(task)));
         } catch(RuntimeException e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         } 
 
@@ -61,13 +67,12 @@ public class KanbanController {
     }
 
     @GetMapping("/kanban/{id}")
-    Task getTask(@PathVariable String id){
-        return taskService.getTask(id);
+    ResponseEntity<Task> getTask(@PathVariable String id){
+        return ResponseEntity.of(taskService.getTask(id));
     }
 
     @PutMapping("/kanban")
     Task editTask(@RequestBody Task task){
-        taskService.saveTask(task);
-        return taskService.getTask(task.getId());
+        return taskService.saveTask(task);
     }
 }

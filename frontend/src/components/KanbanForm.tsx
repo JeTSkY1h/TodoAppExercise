@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { postKanban } from "../service/apiService";
-import { TaskStatus } from "../service/models";
+import { KanbanCard, TaskStatus } from "../service/models";
 import {Tag} from "../service/models"
 import "./KanbanForm.css"
 
@@ -15,7 +15,6 @@ export default function KanbanForm(props: kanbanForomProps){
     const [task, setTask] = useState('');
     const [desc, setDesc] = useState('');
     const [tagString, setTagString] = useState('');
-    
 
     const genRandomColor = ()=> {
         const letters = "0123456789ADBDEF";
@@ -32,33 +31,38 @@ export default function KanbanForm(props: kanbanForomProps){
         tagString.split(',').forEach(tagStr => {
             let foundTag = props.tags.find(tag => tag.tag === tagStr);
             if(foundTag){
-                res.push(foundTag)
+                res.push({
+                    id: foundTag.id, color: foundTag.color,tag: foundTag.tag
+                })
             } else {
                 res.push({tag: tagStr, color: genRandomColor()})
             }
         })
+        console.log(res);
         return res;
     }
 
     const handleClick = () => {
-       
+        
         postKanban({task: task, description: desc, status: TaskStatus.OPEN, tags: setTagsService()})
+        
         .then(()=>{
-            props.fetchKanbans()
+            props.fetchKanbans();
             props.fetchTags();
         })
         setDesc('')
         setTagString('')
         setTask('')
     }
-
+    const test = ()=>{
+        alert('test')
+    }
     return (
         <div className='kanban-form'>
-    
                 <input value={task} placeholder='Task' onChange={ev => setTask(ev.target.value)}/>
                 <input value={desc} placeholder='Description' onChange={ev => setDesc(ev.target.value)}/>
                 <input value={tagString} placeholder="Tags" onChange={ev => setTagString(ev.target.value)}/>
-                <button type="submit"  onClick={handleClick}>Add Task</button>
+                <button onClick={handleClick}>Add Task</button>
         </div>
     )
 }

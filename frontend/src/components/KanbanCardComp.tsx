@@ -18,6 +18,11 @@ export default function KanbanCardComp(props: KanbanCardCompProps) {
     const [desc, setDesc] = useState(props.task.description)
 
     useEffect(()=>{
+       
+        
+    },[task, desc])
+
+    const saveKanban = ()=>{
         putKanban({
             tags: props.task.tags,
             task: task,
@@ -25,8 +30,7 @@ export default function KanbanCardComp(props: KanbanCardCompProps) {
             status: props.task.status,
             id: props.task.id
         }).then(()=>props.fetchKanban())
-        
-    },[task, desc])
+    }
 
     const promote = () => {
         promoteKanban(props.task).then(()=>props.fetchKanban())
@@ -50,7 +54,10 @@ export default function KanbanCardComp(props: KanbanCardCompProps) {
 
     return (
         <div data-testid={"kanban" + props.index } className={`kanban-card ${editMode && "edit-mode"}`}>
-            <button className="kanban-edit-btn kanban-btn" onClick={()=>setEditMode(editMode => !editMode)}>{editMode ? <FaTimes/> : <FaPen/>}</button>
+            <button className="kanban-edit-btn kanban-btn" onClick={()=>{
+                setEditMode(editMode => !editMode)
+                saveKanban();
+            }}>{editMode ? <FaTimes/> : <FaPen/>}</button>
             {editMode ? 
             <> 
                 <div className="edit-inputs">
