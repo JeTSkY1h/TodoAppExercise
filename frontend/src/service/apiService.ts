@@ -1,7 +1,7 @@
 import axios from "axios"
 import { KanbanCard } from "./models"
 
-const url = "http://localhost:8080/api/kanban";
+const url = "/api/kanban";
 
 export const getKanbans = () => {
    return axios.get(url).then(res => res.data);
