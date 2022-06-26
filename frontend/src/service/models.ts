@@ -13,6 +13,9 @@ export interface KanbanCard {
 }
 
 export interface Tag {
+    
+    id?: string;
     tag: string,
     color: string
+    tasks?: KanbanCard[];
 }

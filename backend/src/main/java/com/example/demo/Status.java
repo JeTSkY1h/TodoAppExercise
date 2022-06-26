@@ -5,11 +5,11 @@ public enum Status {
     IN_PROGRESS,
     DONE;
 
-    Status next(){
+    public Status next(){
         return this == OPEN ? Status.IN_PROGRESS : Status.DONE;
     }
 
-    Status prev(){
+    public Status prev(){
         return this == DONE  ? Status.IN_PROGRESS : Status.OPEN;
     }
 }

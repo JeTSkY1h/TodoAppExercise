@@ -5,8 +5,6 @@ import {getKanbans, getKanbansByTag, getTags} from "../service/apiService"
 import { KanbanCard, Tag, TaskStatus } from '../service/models';
 import "./App.css"
 import { Link, useParams } from 'react-router-dom';
-
-
 interface Error {
     code: string,
     message: string,
@@ -18,7 +16,7 @@ interface Error {
     }
 }
 
-function KanbanBoard() {
+export default function KanbanBoard() {
     const [err, setErr] = useState<Error>();
     const [kanbans, setKanbans] = useState<Array<KanbanCard>>([])
     const [tags, setTags] = useState<Array<Tag>>([]);
@@ -88,4 +86,3 @@ function KanbanBoard() {
     );
 }
 
-export default KanbanBoard;

@@ -1,9 +1,15 @@
 import { render, waitFor, screen} from "@testing-library/react"
 import axios, { AxiosError } from "axios"
-import { MemoryRouter, Route, Routes } from "react-router-dom"
+import { MemoryRouter, Route, Routes, useParams } from "react-router-dom"
 import KanbanBoard from "../components/KanbanBoard"
 import { KanbanCard, Tag, TaskStatus } from "../service/models"
 export {}
+
+const mockUseNavigate = jest.fn();
+jest.mock('react-router-dom', ()=>({
+    useParams: ()=>({tagID: "faultyTAg"}),
+    useNavigate: ()=>mockUseNavigate
+}))
 
 
 test("Kanbans render", async ()=> {
@@ -51,9 +57,7 @@ test("Kanbans render", async ()=> {
     })
 
     render(
-        <MemoryRouter>
             <KanbanBoard/>
-        </MemoryRouter>
     )
     
     await waitFor(()=>{
