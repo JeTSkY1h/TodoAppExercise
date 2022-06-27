@@ -65,7 +65,7 @@ export default function KanbanBoard() {
             </Link>
                 {tags?.map((tag, i) => {
                     return (
-                        <Link key={Date.now()*Math.random()} to={`/t/${tag.tag}`}>
+                        <Link key={Date.now()*Math.random()} to={`/${tag.tag}`}>
                             <button data-testid={"tagbtn" + i} onClick={()=>setTimeout(()=>{window.location.reload()},200)} style={{backgroundColor: tag.color}} className="kanban-tag">
                                 {tag.tag}
                             </button>
