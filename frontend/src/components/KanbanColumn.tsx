@@ -10,8 +10,6 @@ interface KanbanColumnProps {
 
 export default function KanbanColumn(props: KanbanColumnProps){
 
-    let counter = 0
-
     return (
         <div className="kanban-column">
             <h1 className="kanban-column-title">{props.title}</h1>

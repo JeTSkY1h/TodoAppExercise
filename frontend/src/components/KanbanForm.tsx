@@ -1,6 +1,6 @@
 import {  useState } from "react"
 import { postKanban } from "../service/apiService";
-import { KanbanCard, TaskStatus } from "../service/models";
+import { TaskStatus } from "../service/models";
 import {Tag} from "../service/models"
 import "./KanbanForm.css"
 
@@ -54,9 +54,7 @@ export default function KanbanForm(props: kanbanForomProps){
         setTagString('')
         setTask('')
     }
-    const test = ()=>{
-        alert('test')
-    }
+
     return (
         <div className='kanban-form'>
                 <input value={task} placeholder='Task' onChange={ev => setTask(ev.target.value)}/>

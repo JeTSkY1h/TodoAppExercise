@@ -1,8 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import KanbanBoard from './components/KanbanBoard';
-import Test from './components/Test';
-
-
 
 function App() {
 

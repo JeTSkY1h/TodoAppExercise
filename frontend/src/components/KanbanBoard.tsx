@@ -22,39 +22,39 @@ export default function KanbanBoard() {
     const [tags, setTags] = useState<Array<Tag>>([]);
     const {tagID} = useParams();
 
-    const fetchTags = ()=> {
-        getTags().then(data => {
-            setTags(data)
-        }).catch(err=>{
-            setErr(err);
-            console.log(err);   
-        });
-    }
-
-    const fetchKanbans = () => {
-        if(tagID){
-            getKanbansByTag(tagID).then(data=>{
-                console.log(data);
-                setKanbans(data)
-            })
-                .catch(err=>{
-                    setErr(err)
-                    console.log(err);
-                })
-            return
-        }
-        getKanbans().then(data => {
-            setKanbans(data)
-        }).catch(err=>{
-            setErr(err);
-            console.log(err);   
-        });
-    }
-
     useEffect(() => {
+        const fetchKanbans = () => {
+            if(tagID){
+                getKanbansByTag(tagID).then(data=>{
+                    console.log(data);
+                    setKanbans(data)
+                })
+                    .catch(err=>{
+                        setErr(err)
+                        console.log(err);
+                    })
+                return
+            }
+            getKanbans().then(data => {
+                setKanbans(data)
+            }).catch(err=>{
+                setErr(err);
+                console.log(err);   
+            });
+        }
+
+        const fetchTags = ()=> {
+            getTags().then(data => {
+                setTags(data)
+            }).catch(err=>{
+                setErr(err);
+                console.log(err);   
+            });
+        }
+
         fetchKanbans()
         fetchTags();
-    },[])
+    },[tagID])
 
     return (
         <>
