@@ -3,6 +3,8 @@ package com.example.demo;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,12 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 public class KanbanController {
     private final TaskService taskService;
-    
+
+    @RequestMapping(value = { "/", "/{x:[\\w\\-]+}", "/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}" })
+    public String getIndex(HttpServletRequest request) {
+        return "/index.html";
+    }
+
     @PostMapping("/kanban")
     ResponseEntity<Task> addTask(@RequestBody Task task){
         try {
