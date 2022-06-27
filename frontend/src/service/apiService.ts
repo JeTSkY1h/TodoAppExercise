@@ -8,10 +8,11 @@ export const getKanbans = () => {
 }
 
 export const putKanban = (task: KanbanCard) => {
-    return axios.post(url, task).then(res => res.data);
+    return axios.put(url, task).then(res => res.data);
 }
 
 export const postKanban = (task: KanbanCard) => {
+    console.log(task);
     return axios.post(url, task).then(res => res.data);
 }
 
