@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class KanbanController {
     private final TaskService taskService;
 
-    @RequestMapping(value = { "/", "/{x:[\\w\\-]+}", "/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}" })
+    @RequestMapping(value = { "/", "/{x:[\\w\\-]+}", "/{x:^(?!api$).*$}/*/{y:[\\w\\-]+}","/error"  })
     public String getIndex(HttpServletRequest request) {
         return "/index.html";
     }
