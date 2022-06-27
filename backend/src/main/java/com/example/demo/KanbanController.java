@@ -22,8 +22,8 @@ public class KanbanController {
     private final TaskService taskService;
 
     @RequestMapping(value = { "/", "/{x:[\\w\\-]+}", "/{x:^(?!api$).*$}/*/{y:[\\w\\-]+}","/error"  })
-    public String getIndex(HttpServletRequest request) {
-        return "/index.html";
+    public String forwardToRouteUrl() {
+        return "forward:/";
     }
 
     @PostMapping("/kanban")
