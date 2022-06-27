@@ -25,7 +25,7 @@ export const demoteKanban = (task: KanbanCard) => {
 }
 
 export const deleteKanban = (task: KanbanCard) => {
-    return axios.delete(`${url}${task.id}`).then(res=>res.data);
+    return axios.delete(url + task).then(res=>res.data);
 }
 
 export const getTags = () => {
