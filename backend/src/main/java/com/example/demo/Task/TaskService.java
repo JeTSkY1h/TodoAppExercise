@@ -26,7 +26,7 @@ public class TaskService {
     }
 
     public Task saveTask(Task taskToAdd){
-        List<mockTag> addedTags = taskToAdd.getTags().stream().map(mockTag->{
+        List<MockTag> addedTags = taskToAdd.getTags().stream().map(mockTag->{
             List<Tag> tagRes = tagRepo.findByTag(mockTag.getTag());
             Tag tag = tagRes.size() <= 0 ? new Tag(mockTag.getTag(), mockTag.getColor()) : tagRes.get(0);
             tag = tagRepo.save(tag);

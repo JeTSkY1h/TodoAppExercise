@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.JWTUtils;
+import com.example.demo.Security.JWTUtils;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,3 @@
-import { setDefaultResultOrder } from "dns";
 import { useState } from "react"
 import { registerUser } from "../service/apiService";
 
@@ -14,7 +13,7 @@ export default function RegisterPage(){
         if(password != passwordCheck) {
             setError("Passwort stimmt nicht mit Passwort check überein.")
         } else {
-            registerUser(username, password).then(res => res.data).then(localStorage.setItem("jwt-kanban"))
+            registerUser(username, password).then(res => res.data).then( data => localStorage.setItem("jwt-kanban", data.token))
         }
     }
 

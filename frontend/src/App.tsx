@@ -10,7 +10,7 @@ function App() {
         <Routes>
             <Route path='/' element={<LoginPage/>}/>
             <Route path='/register' element={<RegisterPage/>}/>
-            <Route path='/' element={<KanbanBoard/>}/>
+            <Route path='/kanban' element={<KanbanBoard/>}/>
             <Route path='/:tagID' element={<KanbanBoard/>}/>
       </Routes>
       </main>

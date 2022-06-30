@@ -4,12 +4,7 @@ package com.example.demo.Task;
 import java.util.*;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-
-import com.example.demo.Status;
-import com.example.demo.Tag.Tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +22,7 @@ public class Task {
     private Status status;
     @Id
     private String id;
-    List<mockTag> tags;
+    List<MockTag> tags;
     
     public Task(String task, String description, Status status, String id){
         this.task = task;
@@ -42,7 +37,7 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String task, String description, Status status, List<mockTag> tags){
+    public Task(String task, String description, Status status, List<MockTag> tags){
         this.task = task;
         this.description = description;
         this.status = status;

@@ -1,25 +1,32 @@
 package com.example.demo;
 
+import com.example.demo.Task.Status;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import com.example.demo.Tag.Tag;
 import com.example.demo.Task.Task;
-import com.example.demo.Task.mockTag;
+import com.example.demo.Task.MockTag;
 import com.example.demo.User.LoginData;
 import com.example.demo.User.LoginResponse;
 import com.example.demo.User.MyUser;
 import org.springframework.http.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class KanbanControllerIT {
 
-	Task task1 = new Task("Java Lernen", "Immer fleißig tests schreiben!", Status.OPEN, List.of(new mockTag("Programmieren", "#5522ff"), new mockTag("Lernen", "#5f68ea")));
-	Task task2 = new Task("Backend Programmieren", "bla bla bla", Status.IN_PROGRESS);
+	MockTag mockTag = new MockTag("testid123123","Programmieren", "#5522ff");
+    MockTag mockTag1 = new MockTag("idtest12234","Lernen", "#5f68ea");
+
+
+	Task task1 = new Task("Java Lernen", "Immer fleißig tests schreiben!", Status.OPEN, List.of(mockTag1));
+	Task task2 = new Task("Backend Programmieren", "bla bla bla", Status.IN_PROGRESS, List.of(mockTag));
 
 	@Autowired
 	TestRestTemplate restTemplate = new TestRestTemplate();
@@ -66,18 +73,18 @@ class KanbanControllerIT {
 		Assertions.assertThat(emptyArray.getBody().length).isEqualTo(0);
 
 		// Check adding Tasks
-		restTemplate.exchange(
+		ResponseEntity<Task> resTask = restTemplate.exchange(
 			"/api/kanban",
 			HttpMethod.POST,
 			new HttpEntity<Object>(task1, createHeaders(jwt)),
-			Void.class
+			Task.class
 		);
 
-		restTemplate.exchange(
+		ResponseEntity<Task> resTask1 = restTemplate.exchange(
 			"/api/kanban",
 			HttpMethod.POST,
 			new HttpEntity<Object>(task2, createHeaders(jwt)),
-			Void.class
+			Task.class
 
 		);
 
@@ -89,6 +96,18 @@ class KanbanControllerIT {
 		);
 
 		Assertions.assertThat(ArraywithTask.getBody().length).isEqualTo(2);
+
+		task1.setId(resTask.getBody().getId());
+		task2.setId(resTask1.getBody().getId());
+		List<MockTag> tags = task1.getTags().stream()
+		IntStream.range(0, tags.size())
+						.filter(i-> tags.size() <= i)
+						.mapToObj(i-> {
+
+								})
+		task1.setTags(task1.getTags().stream().map(mockTag -> {
+				})).
+
 		Assertions.assertThat(ArraywithTask.getBody()).containsExactlyInAnyOrder(task1, task2);
 	
 		//Check get Task By ID

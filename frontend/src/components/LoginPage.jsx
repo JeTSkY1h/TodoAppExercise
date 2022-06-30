@@ -1,15 +1,18 @@
 import { useState } from "react"
 import { loginUser } from "../service/apiService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage(){
     const [password, setPassword] = useState("");    
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
+    const nav = useNavigate();
 
     const submitForm = (e) => {
         e.preventDefault();
-        loginUser(username,password ).then(res => res.data).then(data=>localStorage.setItem("jwt-kanban", data))
+        loginUser(username,password ).then(res => res.data)
+            .then(data=>localStorage.setItem("jwt-kanban", data.token))
+            .then(()=>nav("/kanban"))
             .catch(
                 ()=>setError("Da ist was schiefgelaufen.")
             )
