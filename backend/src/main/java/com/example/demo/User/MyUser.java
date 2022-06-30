@@ -1,5 +1,7 @@
 package com.example.demo.User;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,4 +14,5 @@ public class MyUser {
     String id;
     String username;
     String password;
+    List<String> roles;
 }

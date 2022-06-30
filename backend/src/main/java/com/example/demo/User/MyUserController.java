@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class MyUserController {
 
@@ -24,8 +24,8 @@ public class MyUserController {
     }
 
     @GetMapping("me")
-    public ResponseEntity<MyUser> getloggedinUser(Principal prinicipal){
+    public ResponseEntity<String> getloggedinUser(Principal prinicipal){
         String username = prinicipal.getName();
-        return ResponseEntity.of(myUserService.loadUserByUsername(username));
+        return ResponseEntity.ok(myUserService.findByUsername(username).get().getUsername());
     }
 }

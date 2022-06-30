@@ -3,6 +3,14 @@ import { KanbanCard } from "./models"
 
 const url = "api/kanban/";
 
+export const registerUser = (username: string, password: string) => {
+    return axios.post("/api/user", {username: username, password: password});
+}
+
+export const loginUser = (username: string, password: string) =>{
+    return axios.post("/api/login", {username: username, password: password});
+}
+
 export const getKanbans = () => {
    return axios.get(url).then(res => res.data);
 }
