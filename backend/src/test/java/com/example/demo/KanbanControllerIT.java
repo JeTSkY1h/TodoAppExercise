@@ -99,16 +99,13 @@ class KanbanControllerIT {
 
 		task1.setId(resTask.getBody().getId());
 		task2.setId(resTask1.getBody().getId());
-		List<MockTag> tags = task1.getTags().stream()
-		IntStream.range(0, tags.size())
-						.filter(i-> tags.size() <= i)
-						.mapToObj(i-> {
+		task1.setCreatedById(resTask.getBody().getCreatedById());
+		task2.setCreatedById(resTask1.getBody().getCreatedById());
+		task1.setTags(resTask.getBody().getTags());
+		task2.setTags(resTask1.getBody().getTags());
 
-								})
-		task1.setTags(task1.getTags().stream().map(mockTag -> {
-				})).
 
-		Assertions.assertThat(ArraywithTask.getBody()).containsExactlyInAnyOrder(task1, task2);
+		Assertions.assertThat(ArraywithTask.getBody()).contains(task1, task2);
 	
 		//Check get Task By ID
 		ResponseEntity<Task> task = restTemplate.exchange(
@@ -122,17 +119,17 @@ class KanbanControllerIT {
 		//Check promoting Task
 		restTemplate.exchange(
 			"/api/kanban/next",
-			HttpMethod.GET,
-			new HttpEntity<>(createHeaders(jwt)),
-			Task.class,
-			task1
+			HttpMethod.PUT,
+			new HttpEntity<Object>(task1, createHeaders(jwt)),
+			Task.class
 		);
 
 		ResponseEntity<Task> promotedTask = restTemplate.exchange(
 			"/api/kanban/" + task1.getId(), 
 			HttpMethod.GET,
 			new HttpEntity<>(createHeaders(jwt)),
-		 Task.class);
+		 	Task.class
+			);
 
 		Assertions.assertThat(promotedTask.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(promotedTask.getBody().getStatus()).isEqualTo(Status.IN_PROGRESS);
@@ -141,9 +138,8 @@ class KanbanControllerIT {
 		restTemplate.exchange(
 			"/api/kanban/prev",
 			HttpMethod.PUT,
-			new HttpEntity<>(createHeaders(jwt)),
-			Task.class,
-			task2
+			new HttpEntity<Object>(task2, createHeaders(jwt)),
+			Task.class
 		);
 
 		ResponseEntity<Task> demotedTask = restTemplate.exchange(
@@ -155,14 +151,16 @@ class KanbanControllerIT {
 
 		Assertions.assertThat(demotedTask.getBody().getStatus()).isEqualTo(Status.OPEN);
 		
-		Task task2editet = new Task("Backend Programmieren!", "TEEEEEESSSSSTSS!", Status.OPEN, task2.getId());
+		Task task2editet = new Task("Backend Programmieren!", "TEEEEEESSSSSTSS!", Status.OPEN, List.of(mockTag));
+		task2editet.setId(resTask1.getBody().getId());
+		task2editet.setTags(resTask1.getBody().getTags());
+		task2editet.setCreatedById(resTask1.getBody().getCreatedById());
 		
 		restTemplate.exchange(
 			"/api/kanban/",
 			HttpMethod.PUT,
-			new HttpEntity<>(createHeaders(jwt)),
-			Void.class,
-			task2editet
+			new HttpEntity<Object>(task2editet, createHeaders(jwt)),
+			Void.class
 		);
 
 		//Check editing Task
@@ -201,13 +199,17 @@ class KanbanControllerIT {
 
 		//Check get tags 
 		ResponseEntity<Tag[]> tagArray = restTemplate.exchange(
-			"api/kanban/tags",
+			"/api/kanban/tags",
 			HttpMethod.GET,
 			new HttpEntity<>(createHeaders(jwt)),
 			Tag[].class
 		);
+		Tag tag = new Tag("Programmieren", "#5522ff");
+		tag.setCreatedByID(resTask.getBody().getCreatedById());
+		tag.setId(tagArray.getBody()[0].getId());
 
-		Assertions.assertThat(tagArray.getBody()).containsExactlyInAnyOrder(new Tag("Programmieren", "#5522ff"), new Tag("Lernen", "#5f68ea"));
+
+		Assertions.assertThat(tagArray.getBody()).containsExactlyInAnyOrder(tag);
 	}
 
 	final HttpHeaders createHeaders(String jwt) {
@@ -217,5 +219,3 @@ class KanbanControllerIT {
 		return headers;
 	}
 }
-
-

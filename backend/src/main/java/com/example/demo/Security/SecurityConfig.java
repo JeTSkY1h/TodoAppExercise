@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-            .antMatchers("/api/user","/api/login").permitAll()
+            .antMatchers("/api/user","/api/login", "/api/githublogin").permitAll()
             .antMatchers("/**").authenticated()
             .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

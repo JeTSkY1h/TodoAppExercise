@@ -1,5 +1,7 @@
 package com.example.demo.Task;
 
+import com.example.demo.User.MyUser;
+import com.example.demo.User.MyUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,24 +18,38 @@ public class TaskService {
     private final TaskRepo taskRepo;
     private final TagRepo tagRepo;
 
-    public List<Task> getTasksWithTag(String tag){
+    private final MyUserService myUserService;
+
+    public List<Task> getTasksWithTagAndFromUser(String tag, String username){
+        MyUser user = myUserService.findByUsername(username).get();
         System.out.println(tagRepo.findByTag(tag).get(0));
-        return tagRepo.findByTag(tag).get(0).getTasks(); 
+        return tagRepo.findByTag(tag).get(0).getTasks().stream().filter(task -> task.getCreatedById().equals(user.getId())).toList();
     };
 
-    public List<Tag> getTags() {
-        return tagRepo.findAll();
+    public List<Tag> getTags(String username) {
+        MyUser user = myUserService.findByUsername(username).get();
+        return tagRepo.findByCreatedByID(user.getId());
     }
 
-    public Task saveTask(Task taskToAdd){
+    public List<Task> getTasksFromUser(String username) {
+        MyUser user = myUserService.findByUsername(username).get();
+        return taskRepo.findByCreatedById(user.getId());
+    }
+
+    public Task saveTask(Task taskToAdd, String username){
+
+        Optional<MyUser> user = myUserService.findByUsername(username);
+        taskToAdd.setCreatedById(user.get().getId());
+
         List<MockTag> addedTags = taskToAdd.getTags().stream().map(mockTag->{
             List<Tag> tagRes = tagRepo.findByTag(mockTag.getTag());
             Tag tag = tagRes.size() <= 0 ? new Tag(mockTag.getTag(), mockTag.getColor()) : tagRes.get(0);
+            tag.setCreatedByID(user.get().getId());
             tag = tagRepo.save(tag);
-            System.out.println("SAVEDTAG:" + tag);
             mockTag.setId(tag.getId());
             return mockTag;
         }).toList();
+        
         taskToAdd.setTags(addedTags);
         Task savedTask = taskRepo.save(taskToAdd);
         addedTags.forEach(mockTag->{
@@ -41,9 +57,7 @@ public class TaskService {
             List<Task> currTasks = tag.getTasks() == null ? new ArrayList<Task>() : tag.getTasks();
             currTasks.add(savedTask);
             tag.setTasks(currTasks);
-            System.out.println("UPDAted_tag: " + tagRepo.save(tag));
         });
-        System.out.println("SAVED_TASK:" + savedTask);
         return savedTask;
     }
 

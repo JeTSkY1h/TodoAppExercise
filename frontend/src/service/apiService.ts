@@ -9,6 +9,10 @@ let requestConfig = {
     }
 }
 
+export const githubRedirect = (githubCode: string)=>{
+    return axios.get("/api/githublogin" + githubCode).then(res => res.data)
+}
+
 export const registerUser = (username: string, password: string) => {
     return axios.post("/api/user", {username: username, password: password});
 }
@@ -39,7 +43,7 @@ export const demoteKanban = (task: KanbanCard) => {
 }
 
 export const deleteKanban = (task: KanbanCard) => {
-    return axios.delete(url + task, requestConfig).then(res=>res.data);
+    return axios.delete(url + task.id, requestConfig).then(res=>res.data);
 }
 
 export const getTags = () => {

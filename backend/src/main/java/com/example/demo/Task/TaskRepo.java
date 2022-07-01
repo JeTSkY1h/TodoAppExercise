@@ -7,5 +7,5 @@ import java.util.*;
 
 @Repository
 public interface TaskRepo extends MongoRepository<Task, String> {
-
+    public List<Task> findByCreatedById(String id);
 }

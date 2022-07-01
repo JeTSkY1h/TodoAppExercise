@@ -58,15 +58,15 @@ export default function KanbanBoard() {
     return (
         <>
             <KanbanForm tags={tags} fetchTags={fetchTags} fetchKanbans={fetchKanbans}/>
-            <Link  key={Date.now()*Math.random()} to={`/`}>
-                <button onClick={()=>setTimeout(()=>{window.location.reload()},200)} style={{backgroundColor: "#333"}} className="kanban-tag">
+            <Link to={`/kanban`}>
+                <button style={{backgroundColor: "#333"}} className="kanban-tag">
                     Filter Löschen
                 </button>
             </Link>
                 {tags?.map((tag, i) => {
                     return (
                         <Link key={Date.now()*Math.random()} to={`/${tag.tag}`}>
-                            <button data-testid={"tagbtn" + i} onClick={()=>setTimeout(()=>{window.location.reload()},200)} style={{backgroundColor: tag.color}} className="kanban-tag">
+                            <button data-testid={"tagbtn" + i} style={{backgroundColor: tag.color}} className="kanban-tag">
                                 {tag.tag}
                             </button>
                         </Link>

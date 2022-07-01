@@ -3,6 +3,7 @@ package com.example.demo.Task;
 
 import java.util.*;
 
+import com.example.demo.User.MyUser;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,13 +17,14 @@ import lombok.NoArgsConstructor;
 @Document(collection = "Tasks")
 public class Task {
 
-    
+    @Id
+    private String id;
     private  String task;
     private  String description;
     private Status status;
-    @Id
-    private String id;
     List<MockTag> tags;
+
+    private String createdById;
     
     public Task(String task, String description, Status status, String id){
         this.task = task;
