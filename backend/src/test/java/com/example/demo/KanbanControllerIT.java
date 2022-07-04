@@ -3,7 +3,6 @@ package com.example.demo;
 import com.example.demo.Task.Status;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -16,7 +15,7 @@ import com.example.demo.User.LoginResponse;
 import com.example.demo.User.MyUser;
 import org.springframework.http.*;
 import java.util.*;
-import java.util.stream.IntStream;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class KanbanControllerIT {
@@ -103,7 +102,6 @@ class KanbanControllerIT {
 		task2.setCreatedById(resTask1.getBody().getCreatedById());
 		task1.setTags(resTask.getBody().getTags());
 		task2.setTags(resTask1.getBody().getTags());
-
 
 		Assertions.assertThat(ArraywithTask.getBody()).contains(task1, task2);
 	
