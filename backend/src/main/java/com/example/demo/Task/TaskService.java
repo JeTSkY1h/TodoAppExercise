@@ -24,7 +24,7 @@ public class TaskService {
         MyUser user = myUserService.findByUsername(username).get();
         System.out.println(tagRepo.findByTag(tag).get(0));
         return tagRepo.findByTag(tag).get(0).getTasks().stream().filter(task -> task.getCreatedById().equals(user.getId())).toList();
-    };
+    }
 
     public List<Tag> getTags(String username) {
         MyUser user = myUserService.findByUsername(username).get();
@@ -43,10 +43,16 @@ public class TaskService {
 
         List<MockTag> addedTags = taskToAdd.getTags().stream().map(mockTag->{
             List<Tag> tagRes = tagRepo.findByTag(mockTag.getTag());
-            Tag tag = tagRes.size() <= 0 ? new Tag(mockTag.getTag(), mockTag.getColor()) : tagRes.get(0);
+            Tag tag = tagRes.size() <= 0 ?
+                    new Tag(mockTag.getTag(), mockTag.getColor()) :
+                    tagRes.get(0).getCreatedByID().equals(user.get().getId()) ?
+                            tagRes.get(0) :
+                            new Tag(mockTag.getTag(), mockTag.getColor());
             tag.setCreatedByID(user.get().getId());
             tag = tagRepo.save(tag);
+            System.out.println("SAVED TAG: " + tag);
             mockTag.setId(tag.getId());
+            System.out.println("MOCK TAG: " + mockTag);
             return mockTag;
         }).toList();
         
@@ -57,6 +63,7 @@ public class TaskService {
             List<Task> currTasks = tag.getTasks() == null ? new ArrayList<Task>() : tag.getTasks();
             currTasks.add(savedTask);
             tag.setTasks(currTasks);
+            tagRepo.save(tag);
         });
         return savedTask;
     }

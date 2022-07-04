@@ -4,7 +4,7 @@ import KanbanForm from './KanbanForm';
 import {getKanbans, getKanbansByTag, getTags} from "../service/apiService"
 import { KanbanCard, Tag, TaskStatus } from '../service/models';
 import "./App.css"
-import { Link, useParams } from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 interface Error {
     code: string,
     message: string,
@@ -21,6 +21,7 @@ export default function KanbanBoard() {
     const [kanbans, setKanbans] = useState<Array<KanbanCard>>([])
     const [tags, setTags] = useState<Array<Tag>>([]);
     const {tagID} = useParams();
+    const nav = useNavigate();
     
     const fetchTags = ()=> {
         getTags().then(data => {
@@ -58,6 +59,10 @@ export default function KanbanBoard() {
     return (
         <>
             <KanbanForm tags={tags} fetchTags={fetchTags} fetchKanbans={fetchKanbans}/>
+            <button className={"logout-btn"} onClick={()=>{
+                localStorage.clear()
+                nav("/");
+            }}>Logut</button>
             <Link to={`/kanban`}>
                 <button style={{backgroundColor: "#333"}} className="kanban-tag">
                     Filter Löschen
