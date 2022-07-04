@@ -12,7 +12,7 @@ export default function GithubLogin(){
     useEffect(()=>{
         githubRedirect(location.search)
             .then(data=>localStorage.setItem("jwt-kanban", data.token))
-            .then(()=>nav("/kanban"))
+            .then(()=>nav("/kanban")).catch((e)=>{setError(e)})
     })
 
     return(
