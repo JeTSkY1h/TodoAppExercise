@@ -1,18 +1,19 @@
 package com.example.demo.Task;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public
-class mockTag {
+@AllArgsConstructor
+public class MockTag {
     
     String id;
     private String tag;
     private String color;
 
-    public mockTag(String tag, String color){
+    public MockTag(String tag, String color){
         this.tag = tag;
         this.color = color;
     }

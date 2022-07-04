@@ -1,9 +1,8 @@
 package com.example.demo;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 public class KanbanController {
     private final TaskService taskService;
 
+
     @PostMapping("/kanban")
-    ResponseEntity<Task> addTask(@RequestBody Task task){
+    ResponseEntity<Task> addTask(@RequestBody Task task, Principal principal){
+        String username = principal.getName();
         try {
-            System.out.println("TASK:" + task);
-            return  ResponseEntity.of(Optional.of(taskService.saveTask(task)));
+            return  ResponseEntity.of(Optional.of(taskService.saveTask(task, username)));
         } catch(RuntimeException e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
@@ -34,9 +34,10 @@ public class KanbanController {
     }
 
     @GetMapping("/kanban/t/{tag}")
-    ResponseEntity<List<Task>>getTasksWithTag(@PathVariable String tag){
+    ResponseEntity<List<Task>>getTasksWithTag(@PathVariable String tag, Principal principal){
+        String username = principal.getName();
         try {
-            return ResponseEntity.of(Optional.of(taskService.getTasksWithTag(tag)));
+            return ResponseEntity.of(Optional.of(taskService.getTasksWithTagAndFromUser(tag, username)));
         } catch(RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -44,13 +45,15 @@ public class KanbanController {
     }
 
     @GetMapping("/kanban/tags")
-        List<Tag> getTags(){
-            return taskService.getTags();
+        List<Tag> getTags(Principal principal){
+            String username = principal.getName();
+            return taskService.getTags(username);
         }
     
     @GetMapping("/kanban")
-    List<Task> getTasks(){
-        return taskService.getTasks();
+    List<Task> getTasks(Principal principal){
+        String username = principal.getName();
+        return taskService.getTasksFromUser(username);
     }
 
     @PutMapping("/kanban/next")
@@ -74,7 +77,8 @@ public class KanbanController {
     }
 
     @PutMapping("/kanban")
-    Task editTask(@RequestBody Task task){
-        return taskService.saveTask(task);
+    Task editTask(@RequestBody Task task, Principal principal){
+        String username = principal.getName();
+        return taskService.saveTask(task, username);
     }
 }

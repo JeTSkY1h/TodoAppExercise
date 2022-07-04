@@ -16,12 +16,12 @@ import lombok.Data;
 public class Tag {
     @Id
     private String id;
-
     private String tag;
     private String color;
-
+    private String createdByID;
     @DBRef
     List<Task> tasks;
+
 
     public Tag(String tag, String color){
         this.color = color;
